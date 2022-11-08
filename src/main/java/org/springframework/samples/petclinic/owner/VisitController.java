@@ -38,10 +38,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 class VisitController {
 
-	private final OwnerRepository owners;
+	private final VisitService visitServ;
 
-	public VisitController(OwnerRepository owners) {
-		this.owners = owners;
+	public VisitController(VisitService visitServ) {
+
+		this.visitServ = visitServ;
 	}
 
 	@InitBinder
@@ -59,15 +60,8 @@ class VisitController {
 	@ModelAttribute("visit")
 	public Visit loadPetWithVisit(@PathVariable("ownerId") int ownerId, @PathVariable("petId") int petId,
 			Map<String, Object> model) {
-		Owner owner = this.owners.findById(ownerId);
-
-		Pet pet = owner.getPet(petId);
-		model.put("pet", pet);
-		model.put("owner", owner);
-
-		Visit visit = new Visit();
-		pet.addVisit(visit);
-		return visit;
+		Visit v = visitServ.findPetWithVisit(ownerId, petId, model);
+		return v;
 	}
 
 	// Spring MVC calls method loadPetWithVisit(...) before initNewVisitForm is
@@ -86,9 +80,8 @@ class VisitController {
 			return "pets/createOrUpdateVisitForm";
 		}
 
-		owner.addVisit(petId, visit);
-		this.owners.save(owner);
-		return "redirect:/owners/{ownerId}";
+		Integer id = visitServ.addVisitToPet(owner, petId, visit);
+		return "redirect:/owners/{id}";
 	}
 
 }
