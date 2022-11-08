@@ -16,20 +16,65 @@
 
 package org.springframework.samples.petclinic;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.samples.petclinic.vet.Specialty;
+import org.springframework.samples.petclinic.vet.SpecialtyRepository;
+import org.springframework.samples.petclinic.vet.Vet;
+import org.springframework.samples.petclinic.vet.VetRepository;
 
 /**
  * PetClinic Spring Boot Application.
  *
  * @author Dave Syer
- *
  */
+
+@Slf4j
 @SpringBootApplication
 public class PetClinicApplication {
 
 	public static void main(String[] args) {
+		System.out.println("prueba");
 		SpringApplication.run(PetClinicApplication.class, args);
+	}
+
+	@Bean
+	public CommandLineRunner demoVetRepository(VetRepository vetRepository, SpecialtyRepository specialtyRepository) {
+		return (args) -> {
+			System.out.println("*****************************************************");
+			System.out.println("BOOTCAMP - Spring y Spring Data - vetRepository");
+			System.out.println("*****************************************************");
+
+			System.out.println("Creamos un objeto Vet");
+			Vet vet = new Vet();
+			vet.setFirstName("Sergio");
+			vet.setLastName("Raposo Vargas");
+
+			System.out.println("Persistimos en BBDD");
+			vetRepository.save(vet);
+
+			System.out.println("Comprobamos que se ha creado correctamente");
+			Vet vetAux = vetRepository.findById(vet.getId());
+			System.out.println(vetAux.toString());
+			System.out.println("Editamos el objeto y añadimos una Speciality");
+			Specialty s = specialtyRepository.findById(1);
+			vet.addSpecialty(s);
+			vetRepository.save(vet);
+			System.out.println(vet.toString());
+
+			System.out.println("Listamos todos los veterinarios");
+			for (Vet v : vetRepository.findAll()) {
+				System.out.println("Vet: " + v.getFirstName() + " " + v.getLastName());
+			}
+
+			System.out.println("Listamos todos los veterinarios con especialidad en Radiologia");
+			for (Vet v : vetRepository.findBySpecialtyName("radiology")) {
+				System.out.println("Vet: " + v.getFirstName() + " " + v.getLastName() + " - " + v.getSpecialties());
+			}
+		};
 	}
 
 }
