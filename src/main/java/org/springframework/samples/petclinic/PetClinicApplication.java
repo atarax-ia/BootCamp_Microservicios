@@ -21,10 +21,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.samples.petclinic.owner.*;
 import org.springframework.samples.petclinic.vet.Specialty;
 import org.springframework.samples.petclinic.vet.SpecialtyRepository;
 import org.springframework.samples.petclinic.vet.Vet;
 import org.springframework.samples.petclinic.vet.VetRepository;
+
+import java.time.LocalDate;
+import java.util.List;
 
 /**
  * PetClinic Spring Boot Application.
@@ -42,7 +46,8 @@ public class PetClinicApplication {
 	}
 
 	@Bean
-	public CommandLineRunner demoVetRepository(VetRepository vetRepository, SpecialtyRepository specialtyRepository) {
+	public CommandLineRunner demoVetRepository(VetRepository vetRepository, SpecialtyRepository specialtyRepository,
+											   PetRepository petRepository, VisitReppository visitRepository) {
 		return (args) -> {
 			System.out.println("*****************************************************");
 			System.out.println("BOOTCAMP - Spring y Spring Data - vetRepository");
@@ -53,27 +58,76 @@ public class PetClinicApplication {
 			vet.setFirstName("Sergio");
 			vet.setLastName("Raposo Vargas");
 
+			System.out.println("*****************************************************");
+
 			System.out.println("Persistimos en BBDD");
 			vetRepository.save(vet);
+
+			System.out.println("*****************************************************");
 
 			System.out.println("Comprobamos que se ha creado correctamente");
 			Vet vetAux = vetRepository.findById(vet.getId());
 			System.out.println(vetAux.toString());
+
+			System.out.println("*****************************************************");
+
 			System.out.println("Editamos el objeto y añadimos una Speciality");
 			Specialty s = specialtyRepository.findById(1);
 			vet.addSpecialty(s);
 			vetRepository.save(vet);
 			System.out.println(vet.toString());
 
+			System.out.println("*****************************************************");
+
 			System.out.println("Listamos todos los veterinarios");
 			for (Vet v : vetRepository.findAll()) {
 				System.out.println("Vet: " + v.getFirstName() + " " + v.getLastName());
 			}
+			System.out.println("*****************************************************");
 
 			System.out.println("Listamos todos los veterinarios con especialidad en Radiologia");
 			for (Vet v : vetRepository.findBySpecialtyName("radiology")) {
 				System.out.println("Vet: " + v.getFirstName() + " " + v.getLastName() + " - " + v.getSpecialties());
 			}
+
+			System.out.println("*****************************************************");
+
+			System.out.println("Mascotas nacidas en 2010, ordenadas ascendentemente por fecha de nacimiento");
+//			for (Vet v : vetRepository.findBySpecialtyName("radiology")) {
+//				System.out.println("Vet: " + v.getFirstName() + " " + v.getLastName() + " - " + v.getSpecialties());
+//			}
+
+			System.out.println("*****************************************************");
+
+			System.out.println("Crear 3 visitas para diferentes mascotas");
+			for (int i = 0; i < 3; i++) {
+				Pet p = petRepository.findById(i + 1);
+				Visit v = new Visit();
+				if(i==0) {v.setDate(LocalDate.of(2000, 1, 15)); }
+				if(i==1) {v.setDate(LocalDate.of(2001, 3, 15)); }
+				if(i==2) {v.setDate(LocalDate.of(2002, 5, 15)); }
+				v.setDescription("Routine check");
+				p.addVisit(v);
+				petRepository.save(p);
+				System.out.println(p.toString());
+			}
+
+			System.out.println("*****************************************************");
+
+			System.out.println("Obtener todas las visitas para una mascota");
+//			for (Visit v : visitRepository.findVisitsByPetId(8)) {
+//				System.out.println("Visit: " + v.getId() + " " + v.getDate() + " - " + v.getDescription());
+//			}
+
+			System.out.println("*****************************************************");
+
+			System.out.println("Obtener las 4 visitas más recientes de todo el sistema");
+			List<Visit> v = visitRepository.findAllInDescendingOrder();
+			for (int i = 0; i < 4; i++) {
+				System.out.println("Visit: " + v.get(i).getDate());
+			}
+
+			System.out.println("*****************************************************");
 		};
 	}
 
