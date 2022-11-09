@@ -2,7 +2,6 @@ package org.springframework.samples.petclinic.visit.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.bill.DAO.BillRepository;
-import org.springframework.samples.petclinic.bill.DTO.Bill;
 import org.springframework.samples.petclinic.owner.DAO.OwnerRepository;
 import org.springframework.samples.petclinic.owner.DTO.Owner;
 import org.springframework.samples.petclinic.pet.DTO.Pet;
@@ -45,7 +44,7 @@ public class VisitService {
 	}
 
 	public List<Visit> findVisits(String f) {
-		List<Visit> visitsResult = new ArrayList<Visit>();
+		List<Visit> visitsResult = new ArrayList<>();
 		switch (f) {
 		case "pagadas":
 			for (Visit v : visits.findAll()) {

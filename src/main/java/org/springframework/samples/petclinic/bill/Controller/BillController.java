@@ -3,14 +3,10 @@ package org.springframework.samples.petclinic.bill.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.bill.DTO.Bill;
 import org.springframework.samples.petclinic.bill.Service.BillService;
-import org.springframework.samples.petclinic.owner.DTO.Owner;
 import org.springframework.samples.petclinic.visit.DTO.Visit;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -36,7 +32,7 @@ public class BillController {
 	@PostMapping("/bills/{idBill}/visit/{idVisit}")
 	@ResponseBody
 	public Visit updateVisitDetails(@PathVariable("idBill") Integer billId, @PathVariable("idVisit") Integer visitId) {
-		return billServ.showVisitDetails(billId, visitId);
+		return billServ.updateVisitDetails(billId, visitId);
 	}
 
 }
