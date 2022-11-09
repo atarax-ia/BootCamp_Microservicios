@@ -13,29 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.samples.petclinic.vet;
+package org.springframework.samples.petclinic.vet.DTO;
 
-import org.junit.jupiter.api.Test;
 import org.springframework.samples.petclinic.vet.DTO.Vet;
-import org.springframework.util.SerializationUtils;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * @author Dave Syer
+ * Simple domain object representing a list of veterinarians. Mostly here to be used for
+ * the 'vets' {@link org.springframework.web.servlet.view.xml.MarshallingView}.
+ *
+ * @author Arjen Poutsma
  */
-class VetTests {
+@XmlRootElement
+public class Vets {
 
-	@Test
-	void testSerialization() {
-		Vet vet = new Vet();
-		vet.setFirstName("Zaphod");
-		vet.setLastName("Beeblebrox");
-		vet.setId(123);
-		Vet other = (Vet) SerializationUtils.deserialize(SerializationUtils.serialize(vet));
-		assertThat(other.getFirstName()).isEqualTo(vet.getFirstName());
-		assertThat(other.getLastName()).isEqualTo(vet.getLastName());
-		assertThat(other.getId()).isEqualTo(vet.getId());
+	private List<Vet> vets;
+
+	@XmlElement
+	public List<Vet> getVetList() {
+		if (vets == null) {
+			vets = new ArrayList<>();
+		}
+		return vets;
 	}
 
 }

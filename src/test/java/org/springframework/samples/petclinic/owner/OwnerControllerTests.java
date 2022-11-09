@@ -45,6 +45,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.samples.petclinic.owner.Controller.OwnerController;
+import org.springframework.samples.petclinic.owner.DAO.OwnerRepository;
+import org.springframework.samples.petclinic.owner.DTO.Owner;
+import org.springframework.samples.petclinic.pet.DTO.Pet;
+import org.springframework.samples.petclinic.pet.DTO.PetType;
+import org.springframework.samples.petclinic.visit.DTO.Visit;
 import org.springframework.test.web.servlet.MockMvc;
 
 /**

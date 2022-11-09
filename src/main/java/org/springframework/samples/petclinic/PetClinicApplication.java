@@ -21,11 +21,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.samples.petclinic.owner.*;
-import org.springframework.samples.petclinic.vet.Specialty;
-import org.springframework.samples.petclinic.vet.SpecialtyRepository;
-import org.springframework.samples.petclinic.vet.Vet;
-import org.springframework.samples.petclinic.vet.VetRepository;
+import org.springframework.samples.petclinic.pet.DAO.PetRepository;
+import org.springframework.samples.petclinic.pet.DTO.Pet;
+import org.springframework.samples.petclinic.specialty.DTO.Specialty;
+import org.springframework.samples.petclinic.specialty.DAO.SpecialtyRepository;
+import org.springframework.samples.petclinic.vet.DTO.Vet;
+import org.springframework.samples.petclinic.vet.DAO.VetRepository;
+import org.springframework.samples.petclinic.visit.DAO.VisitReppository;
+import org.springframework.samples.petclinic.visit.DTO.Visit;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -130,9 +133,9 @@ public class PetClinicApplication {
 
 			System.out.println("Obtener todas las visitas para una mascota");
 			Pet pet = petRepository.findById(2);
-			 for (Visit v : pet.getVisits()) {
-				 System.out.println("Visit: " + v.getId() + " " + v.getDate() + " - " +  v.getDescription());
-			 }
+			for (Visit v : pet.getVisits()) {
+				System.out.println("Visit: " + v.getId() + " " + v.getDate() + " - " + v.getDescription());
+			}
 
 			System.out.println("*****************************************************");
 
