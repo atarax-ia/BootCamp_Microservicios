@@ -123,7 +123,7 @@ public class PetClinicApplication {
 			System.out.println("*****************************************************");
 
 			System.out.println("Obtener todas las visitas para una mascota");
-//			for (Visit v : visitRepository.findVisitsByPetId(8)) {
+//			for (Visit v : petRepository.findByVisitsAndPetId(2)) {
 //				System.out.println("Visit: " + v.getId() + " " + v.getDate() + " - " + v.getDescription());
 //			}
 

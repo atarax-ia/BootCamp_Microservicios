@@ -13,6 +13,4 @@ public interface VisitReppository extends Repository<Visit, Integer> {
 	@Query("SELECT v FROM Visit v ORDER BY v.date DESC")
 	List<Visit> findAllInDescendingOrder();
 
-	//@Query("SELECT v FROM Visit v, Pet p WHERE v.id = p.visits AND p.id = :id")
-	//List<Visit> findVisitsByPetId(@Param("id") Integer id);
 }
