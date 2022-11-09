@@ -41,7 +41,6 @@ class VetController {
 		this.vetServ = vetServ;
 	}
 
-
 	@GetMapping("/vets.html")
 	public String showVetList(@RequestParam(defaultValue = "1") int page, Model model) {
 		// Here we are returning an object of type 'Vets' rather than a collection of Vet
@@ -50,8 +49,6 @@ class VetController {
 		String show = vetServ.createVetList(page, model);
 		return show;
 	}
-
-
 
 	@GetMapping({ "/vets" })
 	public @ResponseBody Vets showResourcesVetList() {

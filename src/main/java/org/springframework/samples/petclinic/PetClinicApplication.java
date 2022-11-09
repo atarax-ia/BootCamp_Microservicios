@@ -47,7 +47,7 @@ public class PetClinicApplication {
 
 	@Bean
 	public CommandLineRunner demoVetRepository(VetRepository vetRepository, SpecialtyRepository specialtyRepository,
-											   PetRepository petRepository, VisitReppository visitRepository) {
+			PetRepository petRepository, VisitReppository visitRepository) {
 		return (args) -> {
 			System.out.println("*****************************************************");
 			System.out.println("BOOTCAMP - Spring y Spring Data - vetRepository");
@@ -110,9 +110,15 @@ public class PetClinicApplication {
 			for (int i = 0; i < 3; i++) {
 				Pet p = petRepository.findById(i + 1);
 				Visit v = new Visit();
-				if(i%3==0) {v.setDate(LocalDate.of(2000, 1, 15)); }
-				if(i%3==1) {v.setDate(LocalDate.of(2001, 3, 15)); }
-				if(i%3==2) {v.setDate(LocalDate.of(2002, 5, 15)); }
+				if (i % 3 == 0) {
+					v.setDate(LocalDate.of(2000, 1, 15));
+				}
+				if (i % 3 == 1) {
+					v.setDate(LocalDate.of(2001, 3, 15));
+				}
+				if (i % 3 == 2) {
+					v.setDate(LocalDate.of(2002, 5, 15));
+				}
 				v.setDescription("Routine check");
 				visitRepository.save(v);
 				p.addVisit(v);
@@ -123,9 +129,10 @@ public class PetClinicApplication {
 			System.out.println("*****************************************************");
 
 			System.out.println("Obtener todas las visitas para una mascota");
-//			for (Visit v : petRepository.findByVisitsAndPetId(2)) {
-//				System.out.println("Visit: " + v.getId() + " " + v.getDate() + " - " + v.getDescription());
-//			}
+			// for (Visit v : petRepository.findByVisitsAndPetId(2)) {
+			// System.out.println("Visit: " + v.getId() + " " + v.getDate() + " - " +
+			// v.getDescription());
+			// }
 
 			System.out.println("*****************************************************");
 

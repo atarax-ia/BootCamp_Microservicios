@@ -8,8 +8,10 @@ import org.springframework.validation.BindingResult;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.Valid;
+
 @Service
 public class PetService {
+
 	private static final String VIEWS_PETS_CREATE_OR_UPDATE_FORM = "pets/createOrUpdatePetForm";
 
 	@Autowired
@@ -57,4 +59,5 @@ public class PetService {
 		this.owners.save(owner);
 		return owner.getId();
 	}
+
 }

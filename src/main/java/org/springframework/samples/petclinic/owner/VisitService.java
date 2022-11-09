@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Map;
+
 @Service
 public class VisitService {
 
@@ -32,4 +33,5 @@ public class VisitService {
 		this.owners.save(owner);
 		return owner.getId();
 	}
+
 }

@@ -40,7 +40,9 @@ public class OwnerService {
 		return owners.findByLastName(lastname, pageable);
 	}
 
-	public Owner findById(Integer id){ return this.owners.findById(id); }
+	public Owner findById(Integer id) {
+		return this.owners.findById(id);
+	}
 
 	public Owner getOwner(Integer ownerId) {
 		return ownerId == null ? new Owner() : this.owners.findById(ownerId);
@@ -90,6 +92,7 @@ public class OwnerService {
 	}
 
 	public Collection<PetType> findPetTypes() {
-		return 	this.owners.findPetTypes();
+		return this.owners.findPetTypes();
 	}
+
 }

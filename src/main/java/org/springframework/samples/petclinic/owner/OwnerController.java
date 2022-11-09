@@ -122,6 +122,4 @@ class OwnerController {
 		return ownerServ.showOwner(ownerId);
 	}
 
-
-
 }
