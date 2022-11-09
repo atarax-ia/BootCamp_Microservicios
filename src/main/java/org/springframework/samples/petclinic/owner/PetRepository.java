@@ -15,7 +15,7 @@ public interface PetRepository  extends Repository<Pet, Integer> {
 
 	void save(Pet pet);
 
-	@Query("SELECT p FROM Pet p WHERE (YEAR(p.birthDate) = YEAR(:year)) ORDER BY p.birthDate ASC")
+	@Query("SELECT p FROM Pet p WHERE (EXTRACT(YEAR FROM p.birthDate) = :year) ORDER BY p.birthDate ASC")
 	@Transactional(readOnly = true)
 	List<Pet> findByYearOfBirthDate(@Param("year") Integer year);
 

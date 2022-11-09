@@ -101,7 +101,7 @@ public class PetClinicApplication {
 
 			System.out.println("Mascotas nacidas en 2000, ordenadas ascendentemente por fecha de nacimiento");
 			for (Pet p : petRepository.findByYearOfBirthDate(2000)) {
-				System.out.println("Pet: " + p.getName() + " " + p.getBirthDate());
+				System.out.println("Pet: " + p.getName() + " \t " + p.getBirthDate());
 			}
 
 			System.out.println("*****************************************************");
