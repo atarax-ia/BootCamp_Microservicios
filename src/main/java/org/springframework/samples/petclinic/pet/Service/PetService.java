@@ -15,11 +15,7 @@ public class PetService {
 	private static final String VIEWS_PETS_CREATE_OR_UPDATE_FORM = "pets/createOrUpdatePetForm";
 
 	@Autowired
-	private final OwnerRepository owners;
-
-	public PetService(OwnerRepository owners) {
-		this.owners = owners;
-	}
+	private OwnerRepository owners;
 
 	public Pet getPet(Integer ownerId, Integer petId) {
 		return petId == null ? new Pet() : this.owners.findById(ownerId).getPet(petId);

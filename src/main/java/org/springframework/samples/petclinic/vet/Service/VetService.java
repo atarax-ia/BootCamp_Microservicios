@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.vet.Service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,11 +15,8 @@ import java.util.List;
 @Service
 public class VetService {
 
-	private final VetRepository vetRepository;
-
-	public VetService(VetRepository clinicService) {
-		this.vetRepository = clinicService;
-	}
+	@Autowired
+	private VetRepository vetRepository;
 
 	private String addPaginationModel(int page, Page<Vet> paginated, Model model) {
 		List<Vet> listVets = paginated.getContent();

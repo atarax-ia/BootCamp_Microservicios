@@ -46,19 +46,18 @@ CREATE TABLE IF NOT EXISTS pets (
   FOREIGN KEY (type_id) REFERENCES types(id)
 ) engine=InnoDB;
 
-
-CREATE TABLE IF NOT EXISTS bills (
-  id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  bill_date DATE,
-  importe DOUBLE(22, 2)
-) engine=InnoDB;
-
 CREATE TABLE IF NOT EXISTS visits (
   id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   pet_id INT(4) UNSIGNED,
   visit_date DATE,
   description VARCHAR(255),
-  bill_id INT(4) UNSIGNED,
-  FOREIGN KEY (pet_id) REFERENCES pets(id),
-  FOREIGN KEY (bill_id) REFERENCES bills(id)
+  FOREIGN KEY (pet_id) REFERENCES pets(id)
+) engine=InnoDB;
+
+CREATE TABLE IF NOT EXISTS bills (
+  id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  bill_date DATE,
+  importe DOUBLE(22, 2),
+  visit_id INT(4) UNSIGNED,
+  FOREIGN KEY (visit_id) REFERENCES visits(id)
 ) engine=InnoDB;

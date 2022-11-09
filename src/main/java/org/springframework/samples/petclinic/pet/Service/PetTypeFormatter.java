@@ -38,11 +38,10 @@ import java.util.Locale;
 @Component
 public class PetTypeFormatter implements Formatter<PetType> {
 
-	private final OwnerRepository owners;
-
 	@Autowired
-	public PetTypeFormatter(OwnerRepository owners) {
-		this.owners = owners;
+	private OwnerRepository owners;
+
+	public PetTypeFormatter(OwnerRepository pets) {
 	}
 
 	@Override

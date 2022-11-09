@@ -27,7 +27,7 @@ import org.springframework.samples.petclinic.specialty.DTO.Specialty;
 import org.springframework.samples.petclinic.specialty.DAO.SpecialtyRepository;
 import org.springframework.samples.petclinic.vet.DTO.Vet;
 import org.springframework.samples.petclinic.vet.DAO.VetRepository;
-import org.springframework.samples.petclinic.visit.DAO.VisitReppository;
+import org.springframework.samples.petclinic.visit.DAO.VisitRepository;
 import org.springframework.samples.petclinic.visit.DTO.Visit;
 
 import java.time.LocalDate;
@@ -50,7 +50,7 @@ public class PetClinicApplication {
 
 	@Bean
 	public CommandLineRunner demoVetRepository(VetRepository vetRepository, SpecialtyRepository specialtyRepository,
-			PetRepository petRepository, VisitReppository visitRepository) {
+			PetRepository petRepository, VisitRepository visitRepository) {
 		return (args) -> {
 			System.out.println("*****************************************************");
 			System.out.println("BOOTCAMP - Spring y Spring Data - vetRepository");

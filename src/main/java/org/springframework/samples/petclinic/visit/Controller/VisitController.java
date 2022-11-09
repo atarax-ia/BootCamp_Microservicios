@@ -15,21 +15,19 @@
  */
 package org.springframework.samples.petclinic.visit.Controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.owner.DTO.Owner;
 import org.springframework.samples.petclinic.visit.DTO.Visit;
 import org.springframework.samples.petclinic.visit.Service.VisitService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Juergen Hoeller
@@ -41,12 +39,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class VisitController {
 
-	private final VisitService visitServ;
-
-	public VisitController(VisitService visitServ) {
-
-		this.visitServ = visitServ;
-	}
+	@Autowired
+	private VisitService visitServ;
 
 	@InitBinder
 	public void setAllowedFields(WebDataBinder dataBinder) {
@@ -67,15 +61,13 @@ public class VisitController {
 		return v;
 	}
 
-	// Spring MVC calls method loadPetWithVisit(...) before initNewVisitForm is
-	// called
+	// Spring MVC calls method loadPetWithVisit(...) before initNewVisitForm is called
 	@GetMapping("/owners/{ownerId}/pets/{petId}/visits/new")
 	public String initNewVisitForm() {
 		return "pets/createOrUpdateVisitForm";
 	}
 
-	// Spring MVC calls method loadPetWithVisit(...) before processNewVisitForm is
-	// called
+	// Spring MVC calls method loadPetWithVisit(...) before processNewVisitForm is called
 	@PostMapping("/owners/{ownerId}/pets/{petId}/visits/new")
 	public String processNewVisitForm(@ModelAttribute Owner owner, @PathVariable int petId, @Valid Visit visit,
 			BindingResult result) {
@@ -85,6 +77,13 @@ public class VisitController {
 
 		Integer id = visitServ.addVisitToPet(owner, petId, visit);
 		return "redirect:/owners/{id}";
+	}
+
+	@RequestMapping(value = "/visits", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Visit> findVisits(@RequestParam(name = "filter", defaultValue = "pagadas", required = true) String f) {
+
+		return visitServ.findVisits(f);
 	}
 
 }

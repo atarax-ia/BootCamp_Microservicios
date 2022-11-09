@@ -19,11 +19,7 @@ import java.util.List;
 public class OwnerService {
 
 	@Autowired
-	private final OwnerRepository owners;
-
-	public OwnerService(OwnerRepository owners) {
-		this.owners = owners;
-	}
+	private OwnerRepository owners;
 
 	private String addPaginationModel(int page, Model model, Page<Owner> paginated) {
 		model.addAttribute("listOwners", paginated);
