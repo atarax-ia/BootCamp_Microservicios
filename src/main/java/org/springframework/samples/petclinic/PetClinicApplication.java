@@ -110,10 +110,11 @@ public class PetClinicApplication {
 			for (int i = 0; i < 3; i++) {
 				Pet p = petRepository.findById(i + 1);
 				Visit v = new Visit();
-				if(i==0) {v.setDate(LocalDate.of(2000, 1, 15)); }
-				if(i==1) {v.setDate(LocalDate.of(2001, 3, 15)); }
-				if(i==2) {v.setDate(LocalDate.of(2002, 5, 15)); }
+				if(i%3==0) {v.setDate(LocalDate.of(2000, 1, 15)); }
+				if(i%3==1) {v.setDate(LocalDate.of(2001, 3, 15)); }
+				if(i%3==2) {v.setDate(LocalDate.of(2002, 5, 15)); }
 				v.setDescription("Routine check");
+				visitRepository.save(v);
 				p.addVisit(v);
 				petRepository.save(p);
 				System.out.println(p.toString());
