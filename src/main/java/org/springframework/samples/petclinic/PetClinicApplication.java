@@ -41,7 +41,7 @@ import java.util.List;
 public class PetClinicApplication {
 
 	public static void main(String[] args) {
-		System.out.println("prueba");
+		System.out.println("Inicio...");
 		SpringApplication.run(PetClinicApplication.class, args);
 	}
 
