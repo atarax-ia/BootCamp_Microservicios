@@ -20,7 +20,7 @@ public class BillService {
 	public VisitRepository visits;
 
 	public List<Bill> findBills(String f) {
-		List<Bill> billsResult = new ArrayList<Bill>();
+		List<Bill> billsResult = new ArrayList<>();
 		switch (f) {
 		case "pagadas":
 			billsResult = bills.getPaidBills();
@@ -35,7 +35,16 @@ public class BillService {
 	public Visit showVisitDetails(Integer billId, Integer visitId) {
 		Bill b = bills.findById(billId);
 		Visit v = visits.findById(visitId);
-		if (!(b.getId().equals(v.getBill()))) {
+		if (b.getId().equals(v.getBill().getId())) {
+			return v;
+		}
+		return null;
+	}
+
+	public Visit updateVisitDetails(Integer billId, Integer visitId) {
+		Bill b = bills.findById(billId);
+		Visit v = visits.findById(visitId);
+		if (!(b.getId().equals(v.getBill().getId()))) {
 			v.setBill(b);
 			visits.save(v);
 			v = visits.findById(visitId);
