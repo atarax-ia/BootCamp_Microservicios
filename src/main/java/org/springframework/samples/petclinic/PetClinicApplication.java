@@ -93,9 +93,16 @@ public class PetClinicApplication {
 			System.out.println("*****************************************************");
 
 			System.out.println("Mascotas nacidas en 2010, ordenadas ascendentemente por fecha de nacimiento");
-//			for (Vet v : vetRepository.findBySpecialtyName("radiology")) {
-//				System.out.println("Vet: " + v.getFirstName() + " " + v.getLastName() + " - " + v.getSpecialties());
-//			}
+			for (Pet p : petRepository.findByYearOfBirthDate(2010)) {
+				System.out.println("Pet: " + p.getName() + " " + p.getBirthDate());
+			}
+
+			System.out.println("*****************************************************");
+
+			System.out.println("Mascotas nacidas en 2000, ordenadas ascendentemente por fecha de nacimiento");
+			for (Pet p : petRepository.findByYearOfBirthDate(2000)) {
+				System.out.println("Pet: " + p.getName() + " " + p.getBirthDate());
+			}
 
 			System.out.println("*****************************************************");
 
