@@ -40,26 +40,30 @@ class PetController {
 
 	private static final String VIEWS_PETS_CREATE_OR_UPDATE_FORM = "pets/createOrUpdatePetForm";
 
-	private final OwnerRepository owners;
+	private final OwnerService ownerServ;
+	private final PetService petServ;
 
-	public PetController(OwnerRepository owners) {
-		this.owners = owners;
+	public PetController(OwnerService ownerServ, PetService petServ) {
+
+		this.ownerServ = ownerServ;
+		this.petServ = petServ;
 	}
 
 	@ModelAttribute("types")
 	public Collection<PetType> populatePetTypes() {
-		return this.owners.findPetTypes();
+
+		return this.ownerServ.findPetTypes();
 	}
 
 	@ModelAttribute("owner")
 	public Owner findOwner(@PathVariable("ownerId") int ownerId) {
-		return this.owners.findById(ownerId);
+		return this.ownerServ.findById(ownerId);
 	}
 
 	@ModelAttribute("pet")
 	public Pet findPet(@PathVariable("ownerId") int ownerId,
 			@PathVariable(name = "petId", required = false) Integer petId) {
-		return petId == null ? new Pet() : this.owners.findById(ownerId).getPet(petId);
+		return this.petServ.getPet(ownerId, petId);
 	}
 
 	@InitBinder("owner")
@@ -74,31 +78,21 @@ class PetController {
 
 	@GetMapping("/pets/new")
 	public String initCreationForm(Owner owner, ModelMap model) {
-		Pet pet = new Pet();
-		owner.addPet(pet);
+		Pet pet = this.petServ.setPetToOwner(owner);
 		model.put("pet", pet);
 		return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 	}
 
 	@PostMapping("/pets/new")
 	public String processCreationForm(Owner owner, @Valid Pet pet, BindingResult result, ModelMap model) {
-		if (StringUtils.hasLength(pet.getName()) && pet.isNew() && owner.getPet(pet.getName(), true) != null) {
-			result.rejectValue("name", "duplicate", "already exists");
-		}
 
-		owner.addPet(pet);
-		if (result.hasErrors()) {
-			model.put("pet", pet);
-			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
-		}
-
-		this.owners.save(owner);
-		return "redirect:/owners/{ownerId}";
+		String petsResults = petServ.findPetsForForm(owner, pet, result, model);
+		return petsResults;
 	}
 
 	@GetMapping("/pets/{petId}/edit")
 	public String initUpdateForm(Owner owner, @PathVariable("petId") int petId, ModelMap model) {
-		Pet pet = owner.getPet(petId);
+		Pet pet = petServ.getOwnerPet(owner, petId);
 		model.put("pet", pet);
 		return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 	}
@@ -110,9 +104,8 @@ class PetController {
 			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 		}
 
-		owner.addPet(pet);
-		this.owners.save(owner);
-		return "redirect:/owners/{ownerId}";
+		Integer id = petServ.addPetToOwner(owner, pet);
+		return "redirect:/owners/{id}";
 	}
 
 }
