@@ -92,4 +92,7 @@ public class OwnerService {
 		return this.owners.findPetTypes();
 	}
 
+    public void save(Owner owner) {
+		owners.save(owner);
+    }
 }

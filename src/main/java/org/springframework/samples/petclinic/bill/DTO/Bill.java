@@ -46,7 +46,7 @@ public class Bill extends BaseEntity {
 	@Digits(integer = 20, fraction = 2)
 	private Double importe;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "visit_id")
 	private Visit visit;
 
