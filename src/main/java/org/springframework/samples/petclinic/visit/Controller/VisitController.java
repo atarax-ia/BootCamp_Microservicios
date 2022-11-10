@@ -22,6 +22,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.owner.DTO.Owner;
+import org.springframework.samples.petclinic.owner.Service.OwnerService;
 import org.springframework.samples.petclinic.visit.DTO.Visit;
 import org.springframework.samples.petclinic.visit.Service.VisitService;
 import org.springframework.stereotype.Controller;
@@ -36,11 +37,14 @@ import org.springframework.web.bind.annotation.*;
  * @author Michael Isvy
  * @author Dave Syer
  */
-@Controller
+@RestController
 public class VisitController {
 
 	@Autowired
 	private VisitService visitServ;
+
+	@Autowired
+	private OwnerService owners;
 
 	@InitBinder
 	public void setAllowedFields(WebDataBinder dataBinder) {
@@ -56,7 +60,7 @@ public class VisitController {
 	 */
 	@ModelAttribute("visit")
 	public Visit loadPetWithVisit(@PathVariable("ownerId") int ownerId, @PathVariable("petId") int petId,
-			Map<String, Object> model) {
+								  Map<String, Object> model) {
 		Visit v = visitServ.findPetWithVisit(ownerId, petId, model);
 		return v;
 	}
@@ -70,17 +74,16 @@ public class VisitController {
 	// Spring MVC calls method loadPetWithVisit(...) before processNewVisitForm is called
 	@PostMapping("/owners/{ownerId}/pets/{petId}/visits/new")
 	public String processNewVisitForm(@ModelAttribute Owner owner, @PathVariable int petId, @Valid Visit visit,
-			BindingResult result) {
+									  BindingResult result) {
 		if (result.hasErrors()) {
 			return "pets/createOrUpdateVisitForm";
 		}
 
-		Integer id = visitServ.addVisitToPet(owner, petId, visit);
-		return "redirect:/owners/{id}";
+		Integer ownerId = visitServ.addVisitToPet(owner, petId, visit);
+		return "redirect:/owners/{ownerId}";
 	}
 
 	@RequestMapping(value = "/visits", method = RequestMethod.GET)
-	@ResponseBody
 	public List<Visit> findVisits(@RequestParam(name = "filter", defaultValue = "pagadas", required = true) String f) {
 
 		return visitServ.findVisits(f);

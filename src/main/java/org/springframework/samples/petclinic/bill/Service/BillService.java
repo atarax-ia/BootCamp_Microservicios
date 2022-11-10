@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class BillService {
@@ -21,7 +22,7 @@ public class BillService {
 
 	public List<Bill> findBills(String f) {
 		List<Bill> billsResult = new ArrayList<>();
-		switch (f) {
+		switch (f.trim().toLowerCase(Locale.ROOT)) {
 		case "pagadas":
 			billsResult = bills.getPaidBills();
 			break;
@@ -35,7 +36,7 @@ public class BillService {
 	public Visit showVisitDetails(Integer billId, Integer visitId) {
 		Bill b = bills.findById(billId);
 		Visit v = visits.findById(visitId);
-		if (b.getId().equals(v.getBill().getId())) {
+		if (b.equals(v.getBill())) {
 			return v;
 		}
 		return null;

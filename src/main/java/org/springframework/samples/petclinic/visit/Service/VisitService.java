@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 @Service
@@ -45,17 +46,17 @@ public class VisitService {
 
 	public List<Visit> findVisits(String f) {
 		List<Visit> visitsResult = new ArrayList<>();
-		switch (f) {
+		switch (f.trim().toLowerCase(Locale.ROOT)) {
 		case "pagadas":
 			for (Visit v : visits.findAll()) {
-				if (v.getBill().getBill_date() != null) {
+				if ((v.getBill() != null) && (v.getBill().getBill_date() != null)) {
 					visitsResult.add(v);
 				}
 			}
 			break;
 		case "no_pagadas":
 			for (Visit v : visits.findAll()) {
-				if (v.getBill().getBill_date() == null) {
+				if ((v.getBill() != null) && (v.getBill().getBill_date() == null)) {
 					visitsResult.add(v);
 				}
 			}

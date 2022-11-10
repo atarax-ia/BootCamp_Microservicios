@@ -41,14 +41,6 @@ public class Visit extends BaseEntity {
 	@NotEmpty
 	private String description;
 
-	public Bill getBill() {
-		return bill;
-	}
-
-	public void setBill(Bill bill) {
-		this.bill = bill;
-	}
-
 	@OneToOne(mappedBy = "visit")
 	private Bill bill;
 
@@ -74,5 +66,9 @@ public class Visit extends BaseEntity {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	public Bill getBill() { return bill; }
+
+	public void setBill(Bill bill) { this.bill = bill;}
 
 }
